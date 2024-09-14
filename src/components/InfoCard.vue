@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { DayTime } from "../interfaces/DayTime";
+import { FootTraffic } from "../interfaces/FootTraffic";
 import { Place } from "../interfaces/Place";
 
 const props = defineProps<{
@@ -26,7 +27,7 @@ const getFootTrafficData = () => {
             method: "POST",
         })
             .then((response) => response.json())
-            .then((data) => {
+            .then((data: FootTraffic) => {
                 initialized.value = true;
                 loading.value = false;
                 console.log("data:", data);
