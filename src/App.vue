@@ -4,10 +4,11 @@ import GoogleAddressAutocomplete from "./components/GooglePlacesAutocomplete.vue
 import InfoCard from "./components/InfoCard.vue";
 import SelectTime from "./components/SelectTime.vue";
 import ThemeController from "./components/ThemeController.vue";
+import InfoCard from "./components/InfoCard.vue";
 import { DayTime } from "./interfaces/DayTime";
 import { Place } from "./interfaces/Place";
 
-const apiKey = "";
+const apiKey = "AIzaSyCEMuCbz0M1BBy6axO42nV5PkBhvB6gvjU";
 const query = ref<string>("");
 const selectedPlace = ref<Place | undefined>(undefined);
 const selectedDayTime = ref<DayTime | undefined>(undefined);
