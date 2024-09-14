@@ -70,7 +70,7 @@ export default defineComponent({
         function setupAutocomplete() {
             if (autocompleteInput.value) {
                 const options = {
-                    fields: ["name", "formatted_address", "geometry.location"],
+                    fields: ["name", "formatted_address", "opening_hours"],
                 };
                 const autocomplete = new google.maps.places.Autocomplete(
                     autocompleteInput.value,

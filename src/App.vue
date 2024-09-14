@@ -1,16 +1,29 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import GoogleAddressAutocomplete from "./components/GooglePlacesAutocomplete.vue";
-import ThemeController from "./components/ThemeController.vue";
 import SelectTime from "./components/SelectTime.vue";
-import { GooglePlace } from "./interfaces/GooglePlace";
+import ThemeController from "./components/ThemeController.vue";
 import { DayTime } from "./interfaces/DayTime";
+import { Place } from "./interfaces/Place";
 
-const apiKey = "AIzaSyCEMuCbz0M1BBy6axO42nV5PkBhvB6gvjU";
+const apiKey = "";
 const query = ref<string>("");
-const selectedTime = ref<DayTime | undefined>(undefined);
-const queryCallback = (place: GooglePlace) => {
-    console.log(place);
+const selectedPlace = ref<Place | undefined>(undefined);
+const selectedDayTime = ref<DayTime | undefined>(undefined);
+
+const placeCallback = (place: Place) => {
+    selectedPlace.value = place;
+};
+
+const dayTimeCallback = (dayTime: DayTime) => {
+    selectedDayTime.value = dayTime;
+};
+
+const handleClick = () => {
+    if (selectedDayTime.value && selectedPlace.value) {
+        console.log("selected time:", { ...selectedDayTime.value });
+        console.log("selected place:", { ...selectedPlace.value });
+    }
 };
 </script>
 
@@ -20,12 +33,13 @@ const queryCallback = (place: GooglePlace) => {
     </header>
     <main class="flex items-center w-full p-4 gap-2">
         <GoogleAddressAutocomplete
-            @callback="queryCallback"
+            @callback="placeCallback"
             :apiKey="apiKey"
             class="grow"
             placeholder="Search for a place..."
             v-model="query"
         ></GoogleAddressAutocomplete>
-        <SelectTime @callback="" v-model="selectedTime"></SelectTime>
+        <SelectTime @callback="dayTimeCallback"></SelectTime>
+        <button @click="handleClick()" class="btn">Get Traffic</button>
     </main>
 </template>
