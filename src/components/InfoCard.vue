@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { DayTime } from "../interfaces/DayTime";
 import { FootTraffic } from "../interfaces/FootTraffic";
 import { Place } from "../interfaces/Place";
+import Heatmap from "./Heatmap.vue";
 
 const props = defineProps<{
     gpApiKey: string;
@@ -30,7 +31,6 @@ const getFootTrafficData = () => {
             .then((data: FootTraffic) => {
                 initialized.value = true;
                 loading.value = false;
-                console.log("data:", data);
             });
     }, 500);
 };
