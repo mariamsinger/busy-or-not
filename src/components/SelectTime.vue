@@ -9,7 +9,7 @@ const meridien = ref<string>("PM");
 watchPostEffect(() => {
     const standardizedHour = (hour.value % 12) + (meridien.value === "PM" ? 12 : 0);
     emit("callback", {
-        day: day.value,
+        day: days.indexOf(day.value),
         hour: standardizedHour,
     });
 });
