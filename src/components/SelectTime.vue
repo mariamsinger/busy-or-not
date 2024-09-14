@@ -11,6 +11,7 @@ watchPostEffect(() => {
     emit("callback", {
         day: days.indexOf(day.value),
         hour: standardizedHour,
+        meridien: meridien.value,
     });
 });
 
