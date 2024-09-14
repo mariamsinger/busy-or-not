@@ -1,11 +1,21 @@
 <script setup lang="ts">
-const props = defineProps({ msg: String });
+import { ref } from "vue";
+import GoogleAddressAutocomplete from "vue3-google-address-autocomplete";
+
+const query = ref("");
+
+const queryCallback = (place: any) => {
+    console.log(place);
+};
 </script>
 <template>
-    <div class="card bg-neutral text-neutral-content w-96">
-        <div class="card-body items-center text-center">
-            <h2 class="card-title">Busy or not!?</h2>
-            <p>{{ props.msg }}</p>
-        </div>
+    <div class="input input-bordered flex items-center gap-2">
+        <GoogleAddressAutocomplete
+            @callback="queryCallback"
+            apiKey="API_KEY"
+            class="grow"
+            placeholder="Search for a place..."
+            v-model="query"
+        ></GoogleAddressAutocomplete>
     </div>
 </template>
