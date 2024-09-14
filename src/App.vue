@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import GoogleAddressAutocomplete from "./components/GooglePlacesAutocomplete.vue";
+import { onMounted, ref, useTemplateRef } from "vue";
+import GooglePlacesAutocomplete from "./components/GooglePlacesAutocomplete.vue";
 import InfoCard from "./components/InfoCard.vue";
 import SelectTime from "./components/SelectTime.vue";
 import ThemeController from "./components/ThemeController.vue";
 import { DayTime } from "./interfaces/DayTime";
 import { Place } from "./interfaces/Place";
 
-const apiKey = "";
-const query = ref<string>("");
+const gpApiKey = "";
+const btApiKey = "";
+
 const selectedPlace = ref<Place | undefined>(undefined);
 const selectedDayTime = ref<DayTime | undefined>(undefined);
+const query = ref<string>("");
+
+const infoCard = useTemplateRef("info-card");
+
+onMounted(() => {});
 
 const placeCallback = (place: Place) => {
     selectedPlace.value = place;
@@ -21,10 +27,7 @@ const dayTimeCallback = (dayTime: DayTime) => {
 };
 
 const handleClick = () => {
-    if (selectedDayTime.value && selectedPlace.value) {
-        console.log("selected time:", { ...selectedDayTime.value });
-        console.log("selected place:", { ...selectedPlace.value });
-    }
+    infoCard.value?.getFootTrafficData();
 };
 </script>
 
@@ -33,17 +36,24 @@ const handleClick = () => {
         <ThemeController class="ml-auto"></ThemeController>
     </header>
     <main class="flex items-center w-full p-4 gap-2">
-        <GoogleAddressAutocomplete
+        <GooglePlacesAutocomplete
             @callback="placeCallback"
-            :apiKey="apiKey"
+            :apiKey="gpApiKey"
             class="grow"
             placeholder="Search for a place..."
             v-model="query"
-        ></GoogleAddressAutocomplete>
+        ></GooglePlacesAutocomplete>
         <SelectTime @callback="dayTimeCallback"></SelectTime>
         <button @click="handleClick()" class="btn">Get Traffic</button>
     </main>
     <div class="flex flex-row justify-center items-center p-4 gap-2 rounded-lg">
-        <InfoCard></InfoCard>
+        <InfoCard
+            v-if="selectedDayTime && selectedPlace"
+            :btApiKey="btApiKey"
+            :dayTime="selectedDayTime"
+            :gpApiKey="gpApiKey"
+            :place="selectedPlace"
+            ref="info-card"
+        ></InfoCard>
     </div>
 </template>
