@@ -132,7 +132,9 @@ defineExpose({ getFootTrafficData });
                     </template>
                     <span v-else>No info available...</span>
                 </p>
-                <p>{{ placeHours ? placeHours[selectedDay] : "No info available..." }}</p>
+                <p>
+                    {{ placeHours ? placeHours[selectedDay] : "No info available..." }}
+                </p>
             </div>
             <Heatmap :footTraffic="footTraffic!"></Heatmap>
         </div>

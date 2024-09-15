@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef } from "vue";
+import { ref, useTemplateRef } from "vue";
 import GooglePlacesAutocomplete from "./components/GooglePlacesAutocomplete.vue";
 import InfoCard from "./components/InfoCard.vue";
 import PersonalInfoFooter from "./components/PersonalInfoFooter.vue";
@@ -18,8 +18,6 @@ const showToast = ref<boolean>(false);
 const toastMessage = ref<string>("");
 
 const infoCard = useTemplateRef("info-card");
-
-onMounted(() => {});
 
 const placeCallback = (place: Place) => {
     selectedPlace.value = place;
@@ -45,7 +43,7 @@ const handleShowToast = (message: string) => {
 
 <template>
     <header class="flex items-center justify-center p-4">
-        <h1 class="text-primary font-bold">Busy or Not?</h1>
+        <h1 class="text-primary font-bold text-[20px]">Busy or Not?</h1>
         <ThemeController class="fixed right-4"></ThemeController>
     </header>
     <main class="flex items-center w-full p-4 gap-2">

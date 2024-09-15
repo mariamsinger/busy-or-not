@@ -11,23 +11,34 @@ const busyCategories = {
         min: 1,
         max: 39,
         name: "Not busy",
-        color: "#FFAFD2",
+        color: "#92FFD5",
     },
     littleBusy: {
         min: 40,
         max: 69,
         name: "Little busy",
-        color: "#FF50AA",
+        color: "#9077FF",
     },
-    Busy: {
+    busy: {
         min: 70,
-        max: 500,
+        max: 100,
         name: "Busy",
         color: "#B40059",
     },
 };
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+const textColor = computed(() => {
+    const elem = document.createElement("div");
+    elem.style.display = "none";
+    elem.style.color = "primary";
+    document.body.appendChild(elem);
+    const color = window.getComputedStyle(elem, null).getPropertyValue("color");
+    console.log("color:", color);
+    document.body.removeChild(elem);
+    return color;
+});
 
 const hours = computed<{ open: number; close: number }>(() => {
     // Find longest opening hours of the week
@@ -80,8 +91,9 @@ const options = computed(() => {
         },
         legend: {
             labels: {
-                colors: "#D7DDE4",
+                colors: textColor.value,
             },
+            position: "bottom",
         },
         plotOptions: {
             heatmap: {
@@ -103,10 +115,10 @@ const options = computed(() => {
                             color: busyCategories.littleBusy.color,
                         },
                         {
-                            from: busyCategories.Busy.min,
-                            to: busyCategories.Busy.max,
-                            name: busyCategories.Busy.name,
-                            color: busyCategories.Busy.color,
+                            from: busyCategories.busy.min,
+                            to: busyCategories.busy.max,
+                            name: busyCategories.busy.name,
+                            color: busyCategories.busy.color,
                         },
                     ],
                 },
@@ -128,7 +140,7 @@ const options = computed(() => {
                 //max: 10,
                 offsetY: 25,
                 style: {
-                    colors: "#D7DDE4",
+                    colors: textColor.value,
                 },
             },
             categories: [
@@ -162,14 +174,14 @@ const options = computed(() => {
         yaxis: {
             labels: {
                 style: {
-                    colors: "#D7DDE4",
+                    colors: textColor.value,
                 },
             },
         },
         axisTicks: {
             show: true,
             borderType: "solid",
-            color: "#D7DDE4",
+            color: textColor.value,
             height: 6,
             offsetX: 0,
             offsetY: 0,
@@ -179,8 +191,10 @@ const options = computed(() => {
         },
         title: {
             text: `Traffic Forecast for ${props.footTraffic.venue_info.venue_name}`,
+            align: "center",
             style: {
-                color: "#D7DDE4",
+                color: textColor.value,
+                fontSize: "18px",
             },
         },
         tooltip: {
@@ -212,8 +226,8 @@ const hourToIndex = (hour: number) => {
 <template>
     <div class="flex-[0.6]">
         <apexchart
-            height="600"
-            width="800"
+            height="550"
+            width="700"
             type="heatmap"
             :options="options"
             :series="series"
