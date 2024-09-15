@@ -8,8 +8,8 @@ import ThemeController from "./components/ThemeController.vue";
 import { DayTime } from "./interfaces/DayTime";
 import { Place } from "./interfaces/Place";
 
-const gpApiKey = "";
-const btApiKey = "";
+const gpApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+const btApiKey = import.meta.env.VITE_BETTER_TIME_API_KEY;
 
 const selectedPlace = ref<Place | undefined>(undefined);
 const selectedDayTime = ref<DayTime | undefined>(undefined);
