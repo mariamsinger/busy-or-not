@@ -27,6 +27,8 @@ const busyCategories = {
     },
 };
 
+const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
 const hours = computed<{ open: number; close: number }>(() => {
     // Find longest opening hours of the week
     const openIx: number[] = [];
@@ -59,36 +61,15 @@ const hours = computed<{ open: number; close: number }>(() => {
 });
 
 const series = computed(() => {
-    return [
-        {
-            name: "Sun",
-            data: props.footTraffic.analysis[6].day_raw.slice(hours.value.open, hours.value.close),
-        },
-        {
-            name: "Sat",
-            data: props.footTraffic.analysis[5].day_raw.slice(hours.value.open, hours.value.close),
-        },
-        {
-            name: "Fri",
-            data: props.footTraffic.analysis[4].day_raw.slice(hours.value.open, hours.value.close),
-        },
-        {
-            name: "Thu",
-            data: props.footTraffic.analysis[3].day_raw.slice(hours.value.open, hours.value.close),
-        },
-        {
-            name: "Wed",
-            data: props.footTraffic.analysis[2].day_raw.slice(hours.value.open, hours.value.close),
-        },
-        {
-            name: "Tue",
-            data: props.footTraffic.analysis[1].day_raw.slice(hours.value.open, hours.value.close),
-        },
-        {
-            name: "Mon",
-            data: props.footTraffic.analysis[0].day_raw.slice(hours.value.open, hours.value.close),
-        },
-    ];
+    const tempSeries: any[] = [];
+    props.footTraffic.analysis.forEach((analysis, index) => {
+        const ser = {
+            name: days[index],
+            data: analysis.day_raw.slice(hours.value.open, hours.value.close),
+        };
+        tempSeries.push(ser);
+    });
+    return tempSeries.reverse();
 });
 
 const options = computed(() => {
