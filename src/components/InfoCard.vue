@@ -83,25 +83,25 @@ defineExpose({ getFootTrafficData });
                     Day Forecast: {{ dayAnalysis.day_info.day_text }} @ {{ readableTime }}
                 </h2>
                 <div v-if="hourAnalysis" class="flex flex-row">
-                    <template v-if="hourAnalysis.intensity_nr === 999">
-                        <span
-                            class="text-transform: uppercase font-bold bg-base-content bg-opacity-15"
+                    <div
+                        class="badge badge-primary p-6 gap-2"
+                        v-if="hourAnalysis.intensity_nr === 999"
+                    >
+                        <span class="text-transform: uppercase font-bold"
                             >No info available...</span
                         >
-                        <span class="material-symbols-outlined bg-base-content bg-opacity-15">
+                        <span class="material-symbols-outlined text-[40px]">
                             sentiment_dissatisfied
                         </span>
-                    </template>
-                    <div class="flex items-center" v-else>
-                        <span
-                            class="text-transform: uppercase font-bold border-2 rounded-[0.5rem] p-2 input-bordered"
-                            >{{ hourAnalysis.intensity_txt }}</span
-                        >
+                    </div>
+                    <div v-else class="badge badge-primary p-6 gap-2">
+                        <span class="text-transform: uppercase font-bold">{{
+                            hourAnalysis.intensity_txt
+                        }}</span>
 
                         <span
                             v-for="_ in hourAnalysis.intensity_nr! + 3"
-                            class="material-symbols-outlined"
-                            style="font-size: 60px"
+                            class="material-symbols-outlined text-[40px]"
                             >boy
                         </span>
                     </div>
