@@ -102,7 +102,7 @@ defineExpose({ getFootTrafficData });
                             sentiment_dissatisfied
                         </span>
                     </div>
-                    <div v-else class="badge badge-primary p-6 gap-2">
+                    <div v-else class="badge badge-primary p-6 gap-2 select-none">
                         <span class="text-transform: uppercase font-bold">{{
                             hourAnalysis.intensity_txt
                         }}</span>
@@ -127,7 +127,13 @@ defineExpose({ getFootTrafficData });
                     Quiet hours:
                     <template v-if="dayAnalysis.quiet_hours.length">
                         <span v-for="(hour, index) in dayAnalysis.quiet_hours" :key="index">{{
-                            index !== 0 ? `, ${getReadableTime(hour)}` : getReadableTime(hour)
+                            hour === dayAnalysis.day_info.venue_closed
+                                ? dayAnalysis.quiet_hours.length === 1
+                                    ? "No info available..."
+                                    : ""
+                                : index !== 0
+                                ? `, ${getReadableTime(hour)}`
+                                : getReadableTime(hour)
                         }}</span>
                     </template>
                     <span v-else>No info available...</span>
