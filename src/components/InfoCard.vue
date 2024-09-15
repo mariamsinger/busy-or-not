@@ -27,12 +27,17 @@ const dayAnalysis = computed(() => {
         return footTraffic.value.analysis[selectedDay.value];
     }
 });
+const hourAnalysis = computed(() => {
+    if (dayAnalysis.value) {
+        return dayAnalysis.value.hour_analysis.filter((val) => val.hour === props.dayTime.hour)[0];
+    }
+});
 const placeHours = computed(() => {
     return props.place.opening_hours.weekday_text;
 });
 
 const getReadableTime = (time: number) => {
-    return `${((time + 11) % 12) + 1}${props.dayTime.meridien}`;
+    return `${((time + 11) % 12) + 1}${time >= 12 ? "PM" : "AM"}`;
 };
 
 const getFootTrafficData = () => {
@@ -49,9 +54,14 @@ const getFootTrafficData = () => {
         })
             .then((response) => response.json())
             .then((data: FootTraffic) => {
-                initialized.value = true;
-                loading.value = false;
-                footTraffic.value = data;
+                if (data.status === "Error") {
+                    loading.value = false;
+                    alert(data.message);
+                } else {
+                    initialized.value = true;
+                    loading.value = false;
+                    footTraffic.value = data;
+                }
             });
     }, 500);
 };
@@ -69,9 +79,33 @@ defineExpose({ getFootTrafficData });
             class="flex flex-row justify-between items-center gap-4"
         >
             <div class="card-body">
-                <h2 class="card-title">
+                <h2 class="card-title mb-4">
                     Day Forecast: {{ dayAnalysis.day_info.day_text }} @ {{ readableTime }}
                 </h2>
+                <div v-if="hourAnalysis" class="flex flex-row">
+                    <template v-if="hourAnalysis.intensity_nr === 999">
+                        <span
+                            class="text-transform: uppercase font-bold bg-base-content bg-opacity-15"
+                            >No info available...</span
+                        >
+                        <span class="material-symbols-outlined bg-base-content bg-opacity-15">
+                            sentiment_dissatisfied
+                        </span>
+                    </template>
+                    <div class="flex items-center" v-else>
+                        <span
+                            class="text-transform: uppercase font-bold border-2 rounded-[0.5rem] p-2 input-bordered"
+                            >{{ hourAnalysis.intensity_txt }}</span
+                        >
+
+                        <span
+                            v-for="_ in hourAnalysis.intensity_nr! + 3"
+                            class="material-symbols-outlined"
+                            style="font-size: 60px"
+                            >boy
+                        </span>
+                    </div>
+                </div>
                 <p>
                     Busy hours:
                     <template v-if="dayAnalysis.busy_hours.length">
@@ -90,9 +124,7 @@ defineExpose({ getFootTrafficData });
                     </template>
                     <span v-else>No info available...</span>
                 </p>
-                <p>
-                    Open/Close: {{ placeHours ? placeHours[selectedDay] : "No info available..." }}
-                </p>
+                <p>{{ placeHours ? placeHours[selectedDay] : "No info available..." }}</p>
             </div>
             <Heatmap></Heatmap>
         </div>

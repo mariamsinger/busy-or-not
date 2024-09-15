@@ -3,6 +3,7 @@ export interface FootTraffic {
     epoch_analysis: number;
     status: string;
     venue_info: VenueInfo;
+    message: string;
 }
 
 interface Analysis {
