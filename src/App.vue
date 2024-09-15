@@ -2,6 +2,7 @@
 import { onMounted, ref, useTemplateRef } from "vue";
 import GooglePlacesAutocomplete from "./components/GooglePlacesAutocomplete.vue";
 import InfoCard from "./components/InfoCard.vue";
+import PersonalInfoFooter from "./components/PersonalInfoFooter.vue";
 import SelectTime from "./components/SelectTime.vue";
 import ThemeController from "./components/ThemeController.vue";
 import { DayTime } from "./interfaces/DayTime";
@@ -32,8 +33,9 @@ const handleClick = () => {
 </script>
 
 <template>
-    <header class="flex items-center p-4">
-        <ThemeController class="ml-auto"></ThemeController>
+    <header class="flex items-center justify-center p-4">
+        <h1 class="text-primary font-bold">Busy or Not?</h1>
+        <ThemeController class="fixed right-4"></ThemeController>
     </header>
     <main class="flex items-center w-full p-4 gap-2">
         <GooglePlacesAutocomplete
@@ -44,7 +46,7 @@ const handleClick = () => {
             v-model="query"
         ></GooglePlacesAutocomplete>
         <SelectTime @callback="dayTimeCallback"></SelectTime>
-        <button @click="handleClick()" class="btn">Get Traffic</button>
+        <button @click="handleClick()" class="btn btn-primary">Get Traffic</button>
     </main>
     <div class="flex flex-row justify-center items-center p-4 gap-2 rounded-lg">
         <InfoCard
@@ -56,4 +58,5 @@ const handleClick = () => {
             ref="info-card"
         ></InfoCard>
     </div>
+    <PersonalInfoFooter class="fixed bottom-0"></PersonalInfoFooter>
 </template>

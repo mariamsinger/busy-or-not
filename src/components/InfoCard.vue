@@ -65,32 +65,34 @@ defineExpose({ getFootTrafficData });
             <span class="loading loading-spinner text-primary"></span>
         </div>
         <div
-            v-else-if="initialized && !loading && footTraffic"
+            v-else-if="initialized && !loading && dayAnalysis"
             class="flex flex-row justify-between items-center gap-4"
         >
             <div class="card-body">
-                <template v-if="dayAnalysis">
-                    <h2 class="card-title">
-                        Day Forecast: {{ dayAnalysis.day_info.day_text }} @ {{ readableTime }}
-                    </h2>
-                    <p>
-                        Busy hours:
-                        <template v-for="(hour, index) in dayAnalysis.busy_hours">
-                            <span v-if="index !== 0">, {{ getReadableTime(hour) }}</span>
-                            <span v-else>{{ getReadableTime(hour) }}</span>
-                        </template>
-                    </p>
-                    <p>
-                        Quiet hours:
-                        <template v-for="(hour, index) in dayAnalysis.quiet_hours">
-                            <span v-if="index !== 0">, {{ getReadableTime(hour) }}</span>
-                            <span v-else>{{ getReadableTime(hour) }}</span>
-                        </template>
-                    </p>
-                </template>
-                <template v-if="placeHours">
-                    <p>Open/Close: {{ placeHours[selectedDay] }}</p>
-                </template>
+                <h2 class="card-title">
+                    Day Forecast: {{ dayAnalysis.day_info.day_text }} @ {{ readableTime }}
+                </h2>
+                <p>
+                    Busy hours:
+                    <template v-if="dayAnalysis.busy_hours.length">
+                        <span v-for="(hour, index) in dayAnalysis.busy_hours" :key="index">{{
+                            index !== 0 ? `, ${getReadableTime(hour)}` : getReadableTime(hour)
+                        }}</span>
+                    </template>
+                    <span v-else>No info available...</span>
+                </p>
+                <p>
+                    Quiet hours:
+                    <template v-if="dayAnalysis.quiet_hours.length">
+                        <span v-for="(hour, index) in dayAnalysis.quiet_hours" :key="index">{{
+                            index !== 0 ? `, ${getReadableTime(hour)}` : getReadableTime(hour)
+                        }}</span>
+                    </template>
+                    <span v-else>No info available...</span>
+                </p>
+                <p>
+                    Open/Close: {{ placeHours ? placeHours[selectedDay] : "No info available..." }}
+                </p>
             </div>
             <Heatmap></Heatmap>
         </div>
