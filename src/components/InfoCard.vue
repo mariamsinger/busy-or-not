@@ -12,6 +12,10 @@ const props = defineProps<{
     dayTime: DayTime;
 }>();
 
+const emit = defineEmits<{
+    (e: "showToast", message: string): void;
+}>();
+
 const footTraffic = ref<FootTraffic | undefined>(undefined);
 const initialized = ref<boolean>(false);
 const loading = ref<boolean>(false);
@@ -56,7 +60,7 @@ const getFootTrafficData = () => {
             .then((data: FootTraffic) => {
                 if (data.status === "Error") {
                     loading.value = false;
-                    alert(data.message);
+                    emit("showToast", data.message);
                 } else {
                     initialized.value = true;
                     loading.value = false;

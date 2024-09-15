@@ -14,6 +14,8 @@ const btApiKey = "";
 const selectedPlace = ref<Place | undefined>(undefined);
 const selectedDayTime = ref<DayTime | undefined>(undefined);
 const query = ref<string>("");
+const showToast = ref<boolean>(false);
+const toastMessage = ref<string>("");
 
 const infoCard = useTemplateRef("info-card");
 
@@ -29,6 +31,15 @@ const dayTimeCallback = (dayTime: DayTime) => {
 
 const handleClick = () => {
     infoCard.value?.getFootTrafficData();
+};
+
+const handleShowToast = (message: string) => {
+    showToast.value = true;
+    toastMessage.value = message;
+    setTimeout(() => {
+        showToast.value = false;
+        toastMessage.value = "";
+    }, 3000);
 };
 </script>
 
@@ -46,11 +57,18 @@ const handleClick = () => {
             v-model="query"
         ></GooglePlacesAutocomplete>
         <SelectTime @callback="dayTimeCallback"></SelectTime>
-        <button @click="handleClick()" class="btn btn-primary">Get Traffic</button>
+        <button
+            :disabled="!selectedPlace || !selectedDayTime"
+            @click="handleClick()"
+            class="btn btn-primary"
+        >
+            Get Traffic
+        </button>
     </main>
     <div class="flex flex-row justify-center items-center p-4 gap-2 rounded-lg">
         <InfoCard
             v-if="selectedDayTime && selectedPlace"
+            @showToast="handleShowToast"
             :btApiKey="btApiKey"
             :dayTime="selectedDayTime"
             :gpApiKey="gpApiKey"
@@ -59,4 +77,9 @@ const handleClick = () => {
         ></InfoCard>
     </div>
     <PersonalInfoFooter class="fixed bottom-0"></PersonalInfoFooter>
+    <div v-if="showToast && toastMessage" class="toast toast-top toast-end">
+        <div class="alert alert-error">
+            <span>{{ toastMessage }}</span>
+        </div>
+    </div>
 </template>
