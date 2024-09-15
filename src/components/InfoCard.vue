@@ -33,7 +33,7 @@ const dayAnalysis = computed(() => {
 });
 const hourAnalysis = computed(() => {
     if (dayAnalysis.value) {
-        return dayAnalysis.value.hour_analysis.filter((val) => val.hour === props.dayTime.hour)[0];
+        return dayAnalysis.value.hour_analysis[hourToIndex(props.dayTime.hour)];
     }
 });
 const placeHours = computed(() => {
@@ -68,6 +68,10 @@ const getFootTrafficData = () => {
                 }
             });
     }, 500);
+};
+
+const hourToIndex = (hour: number) => {
+    return hour >= 6 && hour <= 23 ? hour - 6 : hour + 18;
 };
 
 defineExpose({ getFootTrafficData });
@@ -130,7 +134,7 @@ defineExpose({ getFootTrafficData });
                 </p>
                 <p>{{ placeHours ? placeHours[selectedDay] : "No info available..." }}</p>
             </div>
-            <Heatmap></Heatmap>
+            <Heatmap :footTraffic="footTraffic!"></Heatmap>
         </div>
     </div>
 </template>
