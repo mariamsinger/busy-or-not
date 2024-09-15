@@ -64,7 +64,6 @@ const hours = computed<{ open: number; close: number }>(() => {
         closeIxMax = 23;
     } else {
         // Adjust
-        // open_ix_min = 0;
         closeIxMax = closeIxMax;
     }
 
