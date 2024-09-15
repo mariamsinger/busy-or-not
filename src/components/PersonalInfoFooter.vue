@@ -21,11 +21,11 @@
                     />
                 </svg>
             </a>
-            <p>Busy or Not?</p>
+            <p class="hover:link">Busy or Not?</p>
         </aside>
         <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end items-center">
             <a
-                class="flex items-center gap-1 cursor-pointer"
+                class="flex items-center gap-1 cursor-pointer hover:link"
                 href="https://github.com/marwakazimi"
                 target="_blank"
             >
@@ -43,7 +43,7 @@
                 Marwa Kazimi
             </a>
             <a
-                class="flex items-center gap-1 cursor-pointer"
+                class="flex items-center gap-1 cursor-pointer hover:link"
                 href="https://github.com/kaneru-soju"
                 target="_blank"
             >
@@ -61,7 +61,7 @@
                 Payton Klemens
             </a>
             <a
-                class="flex items-center gap-1 cursor-pointer"
+                class="flex items-center gap-1 cursor-pointer hover:link"
                 href="https://github.com/mariamsinger"
                 target="_blank"
             >
@@ -79,7 +79,7 @@
                 Mariam Singer
             </a>
             <a
-                class="flex items-center gap-1 cursor-pointer"
+                class="flex items-center gap-1 cursor-pointer hover:link"
                 href="https://github.com/heathervu"
                 target="_blank"
             >
